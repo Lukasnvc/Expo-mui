@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material";
 
-import Feed from "../../components/Feed";
+import Feed from "../../components/PicFeed";
 import Rightbar from "../../components/Rightbar";
 import Sidebar from "../../components/Sidebar";
 
@@ -12,7 +12,6 @@ const Home = () => {
        <Sidebar/>
       <Feed />
       <Rightbar />
-     
     </Stack>
   )
 }
