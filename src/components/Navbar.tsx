@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
       <AppBar position="sticky">
         <StyledToolbar>
-        <Typography variant="h6" sx={{display: {xs: 'none', sm:'block'}}}>EXPO-site</Typography>
+        <Typography variant="h5" sx={{display: {xs: 'none', sm:'block'}}}>EXPO-site</Typography>
         <EmojiFoodBeverageIcon sx={{ display: { xs: 'block', sm: 'none' } }} />
         <Search><InputBase placeholder="search..."/></Search>
         <Icons>
@@ -58,7 +58,7 @@ const Navbar = () => {
           <Avatar sx={{ width: 30, height: 30 }} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU'
           onClick={e=>setOpen(true)}
           />
-          <Typography >John</Typography>
+          <Typography variant="body1">John</Typography>
         </UserBox>
       </StyledToolbar>
       <Menu

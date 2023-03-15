@@ -1,10 +1,13 @@
 import { Box } from "@mui/system"
+import Navbar from "../components/Navbar"
 import { PropsWithChildren } from "react"
 
 const MainLayout = ({children}: PropsWithChildren) => {
   return (
     <Box
-    >{children}</Box>
+    >
+      <Navbar/>
+      {children}</Box>
   )
 }
 

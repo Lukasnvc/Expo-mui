@@ -1,69 +1,66 @@
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import BurstModeIcon from '@mui/icons-material/BurstMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import Diversity3Icon from '@mui/icons-material/Diversity3';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from '@mui/icons-material/Home';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import React from 'react'
-import SettingsIcon from '@mui/icons-material/Settings';
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { ShowContext } from '../contexts/ShowContext';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import { useContext } from 'react';
 
 const Sidebar = () => {
+  const {setPick, setColor, color} = useContext(ShowContext)
   return (
     <Box
       flex={1}
       p={2}
       sx={{display: {xs: 'none', sm: 'block'}}}
     >
+      <Box
+      position='fixed'
+      >
       <List>
           <ListItem disablePadding>
             <ListItemButton component='a' href='#home'>
             <ListItemIcon>
               <HomeIcon/>
               </ListItemIcon>
-              <ListItemText primary="Home page" />
+              <ListItemText primary="Home" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon>
-              <MenuBookIcon/>
+            <ListItemIcon onClick={() => setPick('images')}>
+              <BurstModeIcon/>
               </ListItemIcon>
-              <ListItemText primary="Pages" />
+              <ListItemText primary="Images" />
+            </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+            <ListItemButton>
+            <ListItemIcon onClick={() => setPick('videos')}>
+              <VideoLibraryIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Videos" />
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
             <ListItemButton>
             <ListItemIcon>
-              <Diversity3Icon/>
+              <FavoriteIcon/>
               </ListItemIcon>
-              <ListItemText primary="Groups" />
+              <ListItemText primary="Liked" />
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
             <ListItemButton>
             <ListItemIcon>
-              <StorefrontIcon/>
+              <LogoutIcon/>
               </ListItemIcon>
-              <ListItemText primary="Marketplace" />
-            </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-            <ListItemButton>
-            <ListItemIcon>
-              <PeopleOutlineIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Friends" />
-            </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-            <ListItemButton>
-            <ListItemIcon>
-              <SettingsIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
+              <ListItemText primary="Logout" />
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -77,13 +74,13 @@ const Sidebar = () => {
         <ListItem disablePadding>
             <ListItemButton>
             <ListItemIcon>
-              <DarkModeIcon/>
+                {color === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
               </ListItemIcon>
-              <Switch/>
+              <Switch onChange={e=> setColor(color === 'light' ? 'dark' : 'light')}/>
             </ListItemButton>
           </ListItem>
         </List>
-
+        </Box>
     </Box>
   )
 }
