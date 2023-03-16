@@ -1,88 +1,88 @@
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material';
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+} from "@mui/material";
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import BurstModeIcon from '@mui/icons-material/BurstMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import HomeIcon from '@mui/icons-material/Home';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { ShowContext } from '../contexts/ShowContext';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import { useContext } from 'react';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BurstModeIcon from "@mui/icons-material/BurstMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import HomeIcon from "@mui/icons-material/Home";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ShowContext } from "../contexts/ShowContext";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import { useContext } from "react";
 
 const Sidebar = () => {
-  const {setPick, setColor, color} = useContext(ShowContext)
+  const { setPick, setColor, color, setPage } = useContext(ShowContext);
   return (
-    <Box
-      flex={1}
-      p={2}
-      sx={{display: {xs: 'none', sm: 'block'}}}
-    >
-      <Box
-      position='fixed'
-      >
-      <List>
+    <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box position="fixed">
+        <List>
           <ListItem disablePadding>
-            <ListItemButton component='a' href='#home'>
-            <ListItemIcon>
-              <HomeIcon/>
+            <ListItemButton component="a" href="#home">
+              <ListItemIcon>
+                <HomeIcon />
               </ListItemIcon>
               <ListItemText primary="Home" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon onClick={() => setPick('images')}>
-              <BurstModeIcon/>
+              <ListItemIcon onClick={() => setPick("images")}>
+                <BurstModeIcon />
               </ListItemIcon>
               <ListItemText primary="Images" />
             </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon onClick={() => setPick('videos')}>
-              <VideoLibraryIcon/>
+              <ListItemIcon onClick={() => setPick("videos")}>
+                <VideoLibraryIcon />
               </ListItemIcon>
               <ListItemText primary="Videos" />
             </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon>
-              <FavoriteIcon/>
+              <ListItemIcon>
+                <FavoriteIcon />
               </ListItemIcon>
               <ListItemText primary="Liked" />
             </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon>
-              <LogoutIcon/>
+              <ListItemIcon>
+                <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon>
-              <AccountCircleIcon/>
+              <ListItemIcon>
+                <AccountCircleIcon />
               </ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
+          </ListItem>
+          <ListItem disablePadding>
             <ListItemButton>
-            <ListItemIcon>
-                {color === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
-              </ListItemIcon>
-              <Switch onChange={e=> setColor(color === 'light' ? 'dark' : 'light')}/>
+              <ListItemIcon>{color === "dark" ? <LightModeIcon /> : <DarkModeIcon />}</ListItemIcon>
+              <Switch onChange={(e) => setColor(color === "light" ? "dark" : "light")} />
             </ListItemButton>
           </ListItem>
         </List>
-        </Box>
+      </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
