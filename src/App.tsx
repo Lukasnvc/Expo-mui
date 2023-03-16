@@ -16,9 +16,9 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <Box bgcolor={"background.default"} color={'text.primary'}>
- <AllRoutes/>
+      <AllRoutes/>
       </Box>
-      </ThemeProvider>
+    </ThemeProvider>
   )
 }
 
