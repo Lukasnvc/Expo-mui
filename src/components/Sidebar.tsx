@@ -20,7 +20,7 @@ import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import { useContext } from "react";
 
 const Sidebar = () => {
-  const { setPick, setColor, color } = useContext(ShowContext);
+  const { setPick, setColor, color, setPage } = useContext(ShowContext);
   return (
     <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
       <Box position="fixed">

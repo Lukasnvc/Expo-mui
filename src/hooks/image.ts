@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 
 const IMAGES = "IMAGES";
 
-export const useImages = () => {
-  return useQuery<PixabayImage[], Error>([IMAGES], fetchImages)
+export const useImages = (page:number) => {
+  return useQuery<PixabayImage[], Error>([IMAGES, page], () => fetchImages(page))
 }
 
 export const useRandomImage = () => {
