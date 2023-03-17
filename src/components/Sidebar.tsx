@@ -20,7 +20,7 @@ import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import { useContext } from "react";
 
 const Sidebar = () => {
-  const { setPick, setColor, color, setPage } = useContext(ShowContext);
+  const { setPick, setColor, color, handleLogOut } = useContext(ShowContext);
   return (
     <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
       <Box position="fixed">
@@ -34,16 +34,16 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon onClick={() => setPick("images")}>
+            <ListItemButton onClick={() => setPick("images")}>
+              <ListItemIcon>
                 <BurstModeIcon />
               </ListItemIcon>
               <ListItemText primary="Images" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon onClick={() => setPick("videos")}>
+            <ListItemButton onClick={() => setPick("videos")}>
+              <ListItemIcon>
                 <VideoLibraryIcon />
               </ListItemIcon>
               <ListItemText primary="Videos" />
@@ -60,17 +60,17 @@ const Sidebar = () => {
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
                 <AccountCircleIcon />
               </ListItemIcon>
               <ListItemText primary="Profile" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => handleLogOut()}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>

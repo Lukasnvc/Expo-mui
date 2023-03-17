@@ -5,7 +5,7 @@ import { ShowContext } from "../contexts/ShowContext";
 import { useContext } from "react";
 
 const AllRoutes = () => {
-  const { isLoggedIn} = useContext(ShowContext)
+  const { isLoggedIn } = useContext(ShowContext);
   const { Layout, routes } = isLoggedIn ? mainLayoutRoutes : authLayoutRoutes;
   return (
     <RoutesWrapper>
@@ -20,14 +20,17 @@ const AllRoutes = () => {
           }
         />
       ))}
-      <Route
-        path="*"
-        element={
-          <Layout>
-            <Navigate to={{ pathname: "/" }} />
-          </Layout>
-        }
-      />
+      {routes.map(({ path, Component }) => (
+        <Route
+          key={path}
+          path={path}
+          element={
+            <Layout>
+              <Component />
+            </Layout>
+          }
+        />
+      ))}
     </RoutesWrapper>
   );
 };

@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { User, UserLogin } from "../api/uerTypes";
+import { User, UserLogin } from "../api/userTypes";
 
 import React from "react";
 import { number } from "yup";
@@ -17,9 +17,9 @@ interface ShowContextProps {
   color: string;
   setPick: any;
   setColor: any;
-  user: UserLogin | null;
-  setUser: (user: UserLogin) => void;
-  handleLogIn: (user: UserLogin) => void;
+  user: User | null;
+  setUser: (value: User | ((val: User | null) => User | null) | null) => void;
+  handleLogIn: (user: User) => void;
   isLoggedIn: boolean;
   handleLogOut: () => void;
   page: number;
@@ -36,7 +36,7 @@ const ShowContext = createContext<ShowContextProps>({
   setPage: () => number,
   setUser: () => {},
   isLoggedIn: false,
-  handleLogIn: () => {},
+  handleLogIn: (user: User) => {},
   handleLogOut: () => {},
 });
 
@@ -44,7 +44,7 @@ const ShowProvider = ({ children }: PropsWithChildren) => {
   const [page, setPage] = useState(1);
   const [pick, setPick] = useState("images");
   const [color, setColor] = useState("light");
-  const [user, setUser] = useLocalStorage<UserLogin | null>("user", null);
+  const [user, setUser] = useLocalStorage<User | null>("user", null);
 
   const isLoggedIn = !!user;
 
@@ -52,7 +52,7 @@ const ShowProvider = ({ children }: PropsWithChildren) => {
     setUser(null);
   };
 
-  const handleLogIn = (user: UserLogin) => {
+  const handleLogIn = (user: User) => {
     setUser(user);
   };
 
