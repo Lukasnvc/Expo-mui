@@ -34,43 +34,11 @@ const Feed = () => {
   const x = getItems();
 
   useEffect(() => {
-    console.log(page);
-
     setList(
       (prevList) =>
         uniqBy([...prevList, ...getItems()], (x) => x.id) as PixabayImage[] | VideoData[]
     );
   }, [images, videos]);
-
-  // const { pick } = useContext(ShowContext);
-  // const [page, setPage] = useState<number>(1);
-  // const [list, setList] = useState<PixabayImage[] | VideoData[]>([]);
-
-  // const { data: imageData, isLoading: isImageLoading } = useImages(page);
-  // const images = imageData || [];
-
-  // const { data: videoData, isLoading: isVideoLoading } = useVideos(page);
-  // const videos = videoData || [];
-
-  // const getItems = () => {
-  //   if (pick === "videos" && !isVideoLoading) {
-  //     setPage(1);
-  //     return videos;
-  //   }
-  //   if (pick === "images" && !isImageLoading) {
-  //     setPage(1);
-  //     return images;
-  //   }
-  //   return [];
-  // };
-  // const items = getItems();
-  // setList(items);
-
-  // useEffect(() => {
-  //   setList(
-  //     (prevList) => uniqBy([...prevList, ...list], (x) => x.id) as PixabayImage[] | VideoData[]
-  //   );
-  // }, [list]);
 
   const fetchPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -97,6 +65,7 @@ const Feed = () => {
                   tags={image.tags}
                   likes={image.likes}
                   author={image.user}
+                  id={image.id}
                 />
               </Grid>
             ))}

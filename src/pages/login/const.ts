@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import { UserLogin } from '../../api/uerTypes';
+import { UserLogin } from '../../api/userTypes';
 
 export const loginFormInitialValues: UserLogin = {
   email: '',

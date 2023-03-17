@@ -1,62 +1,85 @@
-import { AppBar, Avatar, Badge, Box, Icon, InputBase, Menu, MenuItem, Toolbar, Typography, styled } from "@mui/material";
-import { Mail, Notifications } from "@mui/icons-material";
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  Icon,
+  InputBase,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  styled,
+} from "@mui/material";
+import { useContext, useState } from "react";
 
-import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
-import { useState } from "react";
+import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { Notifications } from "@mui/icons-material";
+import { ShowContext } from "../contexts/ShowContext";
 
 const StyledToolbar = styled(Toolbar)({
-  display: 'flex',
-  justifyContent: 'space-between'
+  display: "flex",
+  justifyContent: "space-between",
 });
 
 const Search = styled("div")(({ theme }) => ({
-  backgroundColor: 'white',
-  padding: '0 10px',
+  backgroundColor: "white",
+  padding: "0 10px",
   borderRadius: theme.shape.borderRadius,
-  width: '40%'
+  width: "40%",
 }));
 
 const Icons = styled(Box)(({ theme }) => ({
-  display: 'none',
-  gap: '20px',
-  alignItems: 'center',
-  [theme.breakpoints.up('sm')]: {
-    display: 'flex'
-  }
+  display: "none",
+  gap: "20px",
+  alignItems: "center",
+  [theme.breakpoints.up("sm")]: {
+    display: "flex",
+  },
 }));
 
 const UserBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-  [theme.breakpoints.up('sm')]: {
-    display: 'none'
-  }
-}))
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+}));
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const { handleLogOut } = useContext(ShowContext);
 
   return (
-      <AppBar position="sticky">
-        <StyledToolbar>
-        <Typography variant="h5" sx={{display: {xs: 'none', sm:'block'}}}>EXPO-site</Typography>
-        <EmojiFoodBeverageIcon sx={{ display: { xs: 'block', sm: 'none' } }} />
-        <Search><InputBase placeholder="search..."/></Search>
+    <AppBar position="sticky">
+      <StyledToolbar>
+        <Typography variant="h5" sx={{ display: { xs: "none", sm: "block" } }}>
+          EXPO-site
+        </Typography>
+        <EmojiFoodBeverageIcon sx={{ display: { xs: "block", sm: "none" } }} />
+        <Search>
+          <InputBase placeholder="search..." />
+        </Search>
         <Icons>
-          <Badge badgeContent={4} color='error'>
-            <Mail />
-            </Badge>
-            <Badge badgeContent={2} color='error'>
-            <Notifications/>
+          <Badge badgeContent={4} color="error">
+            <FavoriteIcon />
           </Badge>
-          <Avatar sx={{ width: 30, height: 30 }} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU'
-          onClick={e=>setOpen(true)}
+          <Badge badgeContent={2} color="error">
+            <Notifications />
+          </Badge>
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU"
+            onClick={(e) => setOpen(true)}
           />
         </Icons>
         <UserBox>
-          <Avatar sx={{ width: 30, height: 30 }} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU'
-          onClick={e=>setOpen(true)}
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU"
+            onClick={(e) => setOpen(true)}
           />
           <Typography variant="body1">John</Typography>
         </UserBox>
@@ -65,22 +88,21 @@ const Navbar = () => {
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         open={open}
-        onClose={e=> setOpen(false)}
+        onClose={(e) => setOpen(false)}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
+          vertical: "top",
+          horizontal: "right",
+        }}>
         <MenuItem>Profile</MenuItem>
         <MenuItem>My account</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={() => handleLogOut()}>Logout</MenuItem>
       </Menu>
-      </AppBar>
-  )
-}
+    </AppBar>
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -6,7 +6,7 @@ type MainRoute = {
 };
 
 type AuthRoute = {
-  path: "/";
+  path: "/" | "/register";
   Component: () => JSX.Element;
 };
 
