@@ -1,16 +1,19 @@
 import * as Yup from 'yup';
 
-import { UserRegister } from '../../api/userTypes';
+import { User } from '../../api/userTypes';
 
-export const registerFormInitialValues: UserRegister = {
+export const registerFormInitialValues: User = {
   first_name: '',
   last_name: '',
   email: '',
   password: '',
   confirm_password: '',
+  images_likes: "d",
+  videos_likes: "d",
+  avatar: 'avatar'
 }
 
-export const registerValidationSchema: Yup.ObjectSchema<UserRegister> = Yup.object().shape(
+export const registerValidationSchema: Yup.ObjectSchema<any> = Yup.object().shape(
   {
     first_name: Yup.string().required(),
     last_name: Yup.string().required(),

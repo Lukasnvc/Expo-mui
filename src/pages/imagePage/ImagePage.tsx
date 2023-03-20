@@ -1,56 +1,27 @@
 import { Box, Grid, LinearProgress } from "@mui/material";
-import React, { useEffect, useState } from "react";
 
 import InfiniteScroll from "react-infinite-scroll-component";
-import { PixabayImage } from "../api/imageTypes";
-import Post from "./Post";
-import { SearchContext } from "../contexts/SearchContext";
-import { ShowContext } from "../contexts/ShowContext";
-import { VideoData } from "../api/videoTypes";
-import { uniqBy } from "lodash";
+import Post from "../../components/Post";
+import { SearchContext } from "../../contexts/SearchContext";
 import { useContext } from "react";
-import { useImages } from "../hooks/image";
-import { useVideos } from "../hooks/videos";
+import { useImages } from "../../hooks/image";
+import { useState } from "react";
 
-const Feed = () => {
+const ImagePage = () => {
+  const [page, setPage] = useState(1);
   const { data: searchData } = useContext(SearchContext);
   const search = searchData || [];
-  const { pick, page, setPage } = useContext(ShowContext);
-
-  const [list, setList] = useState<PixabayImage[] | VideoData[]>([]);
 
   const { data: imageData, isLoading: isImageLoading } = useImages(page);
   const images = imageData || [];
-
-  const { data: videoData, isLoading: isVideoLoading } = useVideos(page);
-  const videos = videoData || [];
-
-  const getItems = () => {
-    if (pick === "videos" && !isVideoLoading) {
-      return videos;
-    }
-    if (pick === "images" && !isImageLoading) {
-      return images;
-    }
-    return [];
-  };
-
-  const x = getItems();
-
-  useEffect(() => {
-    setList(
-      (prevList) =>
-        uniqBy([...prevList, ...getItems()], (x) => x.id) as PixabayImage[] | VideoData[]
-    );
-  }, [images, videos]);
 
   const fetchPage = () => {
     setPage((prevPage) => prevPage + 1);
   };
   return (
-    <Box flex={4}>
+    <Box marginTop="30px">
       <InfiniteScroll
-        dataLength={list.length} //This is important field to render the next data
+        dataLength={images.length} //This is important field to render the next data
         next={fetchPage}
         hasMore={true}
         loader={<LinearProgress />}
@@ -77,11 +48,11 @@ const Feed = () => {
           </Grid>
         ) : (
           <Grid gap={4} alignItems="center" justifyContent="center" container>
-            {x.map((image: any) => (
+            {images.map((image: any) => (
               <Grid item xs={12} md={5} key={image.id}>
                 <Post
                   avatar={image.userImageURL}
-                  pic={pick === "images" ? image.webformatURL : image.videos.tiny?.url}
+                  pic={image.webformatURL}
                   tags={image.tags}
                   likes={image.likes}
                   author={image.user}
@@ -96,4 +67,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default ImagePage;

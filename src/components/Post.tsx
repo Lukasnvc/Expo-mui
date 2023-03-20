@@ -7,12 +7,13 @@ import {
   CardHeader,
   CardMedia,
   Checkbox,
-  Collapse,
   IconButton,
   Typography,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { generatePath, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 
+import { CARD_PATH } from "../routes/const";
 import { FavoriteBorder } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import IosShareIcon from "@mui/icons-material/IosShare";
@@ -29,31 +30,63 @@ type Props = {
 };
 
 const Post = ({ pic, tags, likes, author, avatar, id }: Props) => {
-  const [liked, setLiked] = useState(false);
-  const lettersAvatar = author.slice(0, 3);
+  const navigate = useNavigate();
   const { pick } = useContext(ShowContext);
 
-  let likedItems = JSON.parse(localStorage.getItem("likedItems") as string) || [];
-  useEffect(() => {
-    setLiked(likedItems.includes(id) ? true : false);
-  }, [liked]);
+  const [liked, setLiked] = useState<boolean>(() => {
+    const userObjectString = localStorage.getItem("user");
+    if (!userObjectString) {
+      throw new Error("User object not found in local storage.");
+    }
+    const userObject = JSON.parse(userObjectString);
+    const likesArray = userObject[pick + "_likes"] || [];
+    return likesArray.includes(id);
+  });
 
-  const addToLiked = (id: number) => {
-    if (likedItems.includes(id)) {
-      // If the item is already in the array, remove it
-      likedItems = likedItems.filter((item: number) => item !== id);
-      setLiked(false);
-    } else {
-      // Otherwise, add it to the array
-      likedItems.push(id);
-      setLiked(true);
+  const lettersAvatar = author.slice(0, 3);
+
+  function toggleLikeInUserObject(id: number) {
+    const userObjectString = localStorage.getItem("user");
+    if (!userObjectString) {
+      throw new Error("User object not found in local storage.");
+    }
+    const userObject = JSON.parse(userObjectString);
+    console.log("userObject:", userObject);
+    let likesArray = userObject[pick + "_likes"];
+    console.log("likesArray before toggle:", pick, id, likesArray);
+    if (typeof likesArray === "string") {
+      try {
+        likesArray = JSON.parse(likesArray);
+      } catch (e) {
+        likesArray = [];
+      }
     }
 
-    localStorage.setItem("likedItems", JSON.stringify(likedItems));
-  };
+    if (!Array.isArray(likesArray)) {
+      likesArray = [];
+    }
+    if (likesArray.includes("d")) {
+      likesArray = likesArray.filter((item: string) => item !== "d");
+    }
+    likesArray = likesArray.filter((item: any) => typeof item !== "string");
+    const index = likesArray.indexOf(id);
+    if (index !== -1) {
+      likesArray.splice(index, 1);
+    } else {
+      likesArray.push(id);
+    }
+    userObject[pick + "_likes"] = likesArray;
+    console.log("likesArray after toggle:", likesArray);
+    localStorage.setItem("user", JSON.stringify(userObject));
+    setLiked(!liked);
+  }
 
+  const navigatePin = (id: any) => {
+    const path = generatePath(CARD_PATH, { id });
+    navigate(path);
+  };
   return (
-    <Card>
+    <Card elevation={10}>
       <CardHeader
         avatar={
           <Avatar sx={{ backgroundImage: `url(${avatar})`, backgroundSize: "contain" }}>
@@ -75,7 +108,13 @@ const Post = ({ pic, tags, likes, author, avatar, id }: Props) => {
         }
       />
       {pick === "images" ? (
-        <CardMedia component="img" height="20%" image={pic} alt="picture" />
+        <CardMedia
+          onClick={() => navigatePin(id)}
+          component="img"
+          height="20%"
+          image={pic}
+          alt="picture"
+        />
       ) : (
         <CardMedia component="iframe" height="20%" image={pic} />
       )}
@@ -86,7 +125,7 @@ const Post = ({ pic, tags, likes, author, avatar, id }: Props) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={() => addToLiked(id)}>
+        <IconButton aria-label="add to favorites" onClick={() => toggleLikeInUserObject(id)}>
           <Checkbox
             icon={<FavoriteBorder />}
             checkedIcon={<FavoriteIcon sx={{ color: "red" }} />}

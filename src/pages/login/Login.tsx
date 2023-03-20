@@ -26,7 +26,13 @@ const Login = () => {
         const filteredUser = users.filter(
           (user) => user.email === email && user.password === password
         );
-        handleLogIn(filteredUser[0]);
+
+        const user = filteredUser[0];
+        if (typeof user.likes === "string") {
+          user.likes = JSON.parse(user.likes);
+          handleLogIn(user);
+        }
+        handleLogIn(user);
       } else {
         setNotFound(true);
       }

@@ -3,14 +3,19 @@ import {
   PropsWithChildren,
   ReactNode,
   createContext,
+  useContext,
   useEffect,
   useState,
 } from "react";
-import { User, UserLogin } from "../api/userTypes";
 
+import { LOGIN_PATH } from "../routes/const";
 import React from "react";
+import { SearchContext } from "./SearchContext";
+import { User } from "../api/userTypes";
 import { number } from "yup";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useNavigate } from "react-router-dom";
+import { userPut } from "../api/user";
 
 interface ShowContextProps {
   pick: string;
@@ -45,11 +50,28 @@ const ShowProvider = ({ children }: PropsWithChildren) => {
   const [pick, setPick] = useState("images");
   const [color, setColor] = useState("light");
   const [user, setUser] = useLocalStorage<User | null>("user", null);
+  const navigate = useNavigate();
 
   const isLoggedIn = !!user;
 
   const handleLogOut = () => {
+    const userObjectString = localStorage.getItem("user");
+    if (!userObjectString) {
+      throw new Error("User object not found in local storage.");
+    }
+    const userObject = JSON.parse(userObjectString);
+    if (typeof userObject.images_likes !== "string") {
+      userObject.images_likes = JSON.stringify(userObject.images_likes);
+    }
+
+    if (typeof userObject.videos_likes !== "string") {
+      userObject.videos_likes = JSON.stringify(userObject.videos_likes);
+    }
+    console.log(userObject);
+    userPut(userObject);
+    setColor("light");
     setUser(null);
+    navigate(LOGIN_PATH);
   };
 
   const handleLogIn = (user: User) => {

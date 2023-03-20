@@ -10,5 +10,12 @@ export const fetchUsers = (): Promise<User[]> => {
 
 
 export const userRegister = (user: any): Promise<User[]> => {
+  console.log(user)
   return axios.post(URL, user).then((response) => response.data);
 }
+
+export const userPut = (user: User): Promise<User[]> => {
+  console.log(user);
+  return axios.put(`https://testapi.io/api/Novickas/resource/users/${user.id}`, user)
+    .then((response) => response.data);
+};

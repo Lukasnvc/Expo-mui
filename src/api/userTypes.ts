@@ -1,10 +1,12 @@
 export type User = {
-  first_name?: string;
-  last_name?: string;
+  id?: number;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
-  likes?: number;
-  avatar?: string;
+  images_likes?: string | null;
+  videos_likes?: string | null;
+  avatar?: string | null;
   createdAt?: string;
   updatedAt?: string 
   confirm_password?: string;

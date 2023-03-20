@@ -4,18 +4,21 @@ import {
   Badge,
   Box,
   Icon,
+  Input,
   InputBase,
   Menu,
   MenuItem,
+  TextField,
   Toolbar,
   Typography,
   styled,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import EmojiFoodBeverageIcon from "@mui/icons-material/EmojiFoodBeverage";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Notifications } from "@mui/icons-material";
+import { SearchContext } from "../contexts/SearchContext";
 import { ShowContext } from "../contexts/ShowContext";
 
 const StyledToolbar = styled(Toolbar)({
@@ -49,8 +52,17 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const { text, setText, data, setData } = useContext(SearchContext);
+  const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
   const { handleLogOut } = useContext(ShowContext);
+  const userObjectString = localStorage.getItem("user");
+  if (!userObjectString) {
+    throw new Error("User object not found in local storage.");
+  }
+  const userObject = JSON.parse(userObjectString);
+  const likesArray = userObject.likes || [];
+  const lettersAvatar = userObject.first_name.slice(0, 3);
 
   return (
     <AppBar position="sticky">
@@ -60,20 +72,18 @@ const Navbar = () => {
         </Typography>
         <EmojiFoodBeverageIcon sx={{ display: { xs: "block", sm: "none" } }} />
         <Search>
-          <InputBase placeholder="search..." />
+          <TextField placeholder="Search..." onChange={(e) => setText(e.target.value)} />
         </Search>
         <Icons>
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={likesArray.length} color="error">
             <FavoriteIcon />
           </Badge>
           <Badge badgeContent={2} color="error">
             <Notifications />
           </Badge>
-          <Avatar
-            sx={{ width: 30, height: 30 }}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU"
-            onClick={(e) => setOpen(true)}
-          />
+          <Avatar sx={{ width: 30, height: 30 }} onClick={(e) => setOpen(true)}>
+            {lettersAvatar}
+          </Avatar>
         </Icons>
         <UserBox>
           <Avatar
@@ -81,7 +91,7 @@ const Navbar = () => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeq9tnp_--MpET6pc_UoUYOyZGx_lC9ux5WoY6VuXpi3zFFabwHIr6xcRICfwlr_qJmX0&usqp=CAU"
             onClick={(e) => setOpen(true)}
           />
-          <Typography variant="body1">John</Typography>
+          <Typography variant="body1">{userObject.first_name}</Typography>
         </UserBox>
       </StyledToolbar>
       <Menu

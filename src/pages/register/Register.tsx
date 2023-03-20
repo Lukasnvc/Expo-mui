@@ -13,6 +13,7 @@ const Register = () => {
   const navigate = useNavigate();
   const handleSubmit = (values: User) => {
     const { confirm_password, ...user } = values;
+    console.log(user);
     userRegister(user)
       .then(() => {
         navigate("/");

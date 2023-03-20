@@ -7,6 +7,7 @@ import {
   ListItemText,
   Switch,
 } from "@mui/material";
+import { HOME_PATH, IMAGES_PAGE_PATH, VIDEOS_PAGE_PATH } from "../routes/const";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BurstModeIcon from "@mui/icons-material/BurstMode";
@@ -18,15 +19,28 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { ShowContext } from "../contexts/ShowContext";
 import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const { setPick, setColor, color, handleLogOut } = useContext(ShowContext);
+  const navigate = useNavigate();
+
+  const handleNavigateImages = () => {
+    setPick("images");
+    navigate(IMAGES_PAGE_PATH);
+  };
+
+  const handleNavigateVideos = () => {
+    setPick("videos");
+    navigate(VIDEOS_PAGE_PATH);
+  };
+
   return (
-    <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
+    <Box sx={{ display: { xs: "none", sm: "block" } }}>
       <Box position="fixed">
         <List>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#home">
+            <ListItemButton onClick={() => navigate(HOME_PATH)}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -34,7 +48,7 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => setPick("images")}>
+            <ListItemButton onClick={handleNavigateImages}>
               <ListItemIcon>
                 <BurstModeIcon />
               </ListItemIcon>
@@ -42,7 +56,7 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => setPick("videos")}>
+            <ListItemButton onClick={handleNavigateVideos}>
               <ListItemIcon>
                 <VideoLibraryIcon />
               </ListItemIcon>

@@ -1,4 +1,4 @@
-import { fetchUsers, userRegister } from "../api/user";
+import { fetchUsers, userPut, userRegister } from "../api/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { User } from "../api/userTypes";
@@ -12,3 +12,4 @@ export const useUsers = () => {
 export const useCreateUser = () => {
   return useMutation(userRegister);
 };
+
